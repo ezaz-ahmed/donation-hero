@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 const Problem1 = () => {
   const [show, setShow] = useState("all");
@@ -10,27 +10,25 @@ const Problem1 = () => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks"));
 
     if (storedTasks) {
-      let filteredTask = storedTasks;
-
-      if (show === "active") {
-        filteredTask = storedTasks.filter(
-          (task) => task.status.toLowerCase() === "active"
-        );
-      } else if (show === "completed") {
-        filteredTask = storedTasks.filter(
-          (task) => task.status.toLowerCase() === "completed"
-        );
-      } else {
-        filteredTask = storedTasks;
-      }
-
-      setTaskList(filteredTask);
+      setTaskList(storedTasks);
     }
-  }, [show]);
+  }, []);
 
-  const handleClick = (val) => {
+  const filteredTaskList = useMemo(() => {
+    if (show === "active") {
+      return taskList.filter((task) => task.status.toLowerCase() === "active");
+    } else if (show === "completed") {
+      return taskList.filter(
+        (task) => task.status.toLowerCase() === "completed"
+      );
+    } else {
+      return taskList;
+    }
+  }, [show, taskList]);
+
+  const handleClick = useCallback((val) => {
     setShow(val);
-  };
+  }, []);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -122,7 +120,7 @@ const Problem1 = () => {
               </tr>
             </thead>
             <tbody>
-              {taskList.map((item, index) => (
+              {filteredTaskList.map((item, index) => (
                 <tr key={index}>
                   <td>{item.name}</td>
                   <td>{item.status}</td>
