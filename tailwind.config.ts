@@ -41,6 +41,8 @@ const config: Config = {
     extend: {
       backgroundImage: {
         bg: "url('/images/bg.webp')",
+        login: "url('/images/sign-in.svg')",
+        signup: "url('/images/sign-up.svg')",
       },
 
       colors: {
