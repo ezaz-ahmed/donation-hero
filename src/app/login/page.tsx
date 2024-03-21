@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Logo from "~/images/logo.svg";
 import Link from "next/link";
 import GoogleIcon from "~/icons/GoogleIcon";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 export default function Login() {
   return (
